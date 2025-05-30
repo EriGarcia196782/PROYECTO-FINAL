@@ -1,4 +1,4 @@
-﻿
+
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import folium
@@ -6,21 +6,21 @@ import webbrowser
 from graphviz import Digraph
 
 # ========================= Árbol B ============================
-class BTreeNode:
+class NodoArbolB:
     def __init__(self, t, leaf=False):
         self.t = t
         self.leaf = leaf
         self.keys = []
         self.children = []
 
-class BTree:
+class ArbolB:
     def __init__(self, t):
-        self.root = BTreeNode(t, True)
+        self.root = NodoArbolB(t, True)
         self.t = t
 
     def insert(self, k):
         if len(self.root.keys) == (2 * self.t) - 1:
-            new_root = BTreeNode(self.t, False)
+            new_root = NodoArbolB(self.t, False)
             new_root.children.insert(0, self.root)
             self._split_child(new_root, 0)
             self._insert_non_full(new_root, k)
@@ -49,7 +49,7 @@ class BTree:
     def _split_child(self, parent, i):
         t = self.t
         y = parent.children[i]
-        z = BTreeNode(t, y.leaf)
+        z = NodoArbolB(t, y.leaf)
         parent.children.insert(i + 1, z)
         parent.keys.insert(i, y.keys[t - 1])
         z.keys = y.keys[t:(2 * t - 1)]
@@ -222,7 +222,7 @@ def generar_arbol_b():
         messagebox.showwarning("Advertencia", "Debe cargar primero las entidades.")
         return
 
-    arbol_b = BTree(3)
+    arbol_b = ArbolB(3)
     for entidad in entidades_cargadas:
         arbol_b.insert(entidad["nombre"])
 
